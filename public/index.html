@@ -1,0 +1,1353 @@
+<!doctype html>
+<html lang="tr">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Üç Adım - Kültürel Günlük</title>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <style>
+      body {
+        box-sizing: border-box;
+      }
+      
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      html, body {
+        height: 100%;
+        width: 100%;
+      }
+
+      body {
+        font-family: 'Inter', sans-serif;
+        background: #FAF8F5;
+        color: #3A3A3A;
+        line-height: 1.6;
+        overflow-x: hidden;
+      }
+
+      .app-container {
+        width: 100%;
+        min-height: 100%;
+        display: flex;
+        flex-direction: column;
+      }
+
+      /* Navigation */
+      .navbar {
+        background: rgba(250, 248, 245, 0.95);
+        backdrop-filter: blur(10px);
+        border-bottom: 1px solid rgba(58, 58, 58, 0.08);
+        padding: 1.5rem 0;
+        position: sticky;
+        top: 0;
+        z-index: 100;
+        width: 100%;
+      }
+
+      .nav-content {
+        max-width: 1400px;
+        margin: 0 auto;
+        padding: 0 3rem;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+      }
+
+      .site-title {
+        font-family: 'Playfair Display', serif;
+        font-size: 1.75rem;
+        font-weight: 600;
+        color: #3A3A3A;
+        letter-spacing: -0.02em;
+      }
+
+      .site-tagline {
+        font-family: 'Inter', sans-serif;
+        font-size: 0.8rem;
+        font-weight: 300;
+        color: #8A8A8A;
+        margin-top: 0.25rem;
+        letter-spacing: 0.05em;
+      }
+
+      .nav-links {
+        display: flex;
+        gap: 2.5rem;
+        align-items: center;
+      }
+
+      .nav-link {
+        font-size: 0.9rem;
+        font-weight: 400;
+        color: #5A5A5A;
+        text-decoration: none;
+        transition: color 0.3s ease;
+        letter-spacing: 0.02em;
+        cursor: pointer;
+      }
+
+      .nav-link:hover,
+      .nav-link.active {
+        color: #C9A690;
+      }
+
+      /* Hero Section */
+      .hero-section {
+        padding: 5rem 3rem 4rem;
+        text-align: center;
+        max-width: 1400px;
+        margin: 0 auto;
+        width: 100%;
+      }
+
+      .hero-title {
+        font-family: 'Playfair Display', serif;
+        font-size: 3.5rem;
+        font-weight: 600;
+        color: #3A3A3A;
+        margin-bottom: 1rem;
+        letter-spacing: -0.03em;
+        line-height: 1.2;
+      }
+
+      .hero-subtitle {
+        font-size: 1.1rem;
+        font-weight: 300;
+        color: #7A7A7A;
+        max-width: 600px;
+        margin: 0 auto 3rem;
+        letter-spacing: 0.01em;
+      }
+
+      /* Main Content */
+      .main-content {
+        flex: 1;
+        padding: 0 3rem 5rem;
+        max-width: 1400px;
+        margin: 0 auto;
+        width: 100%;
+      }
+
+      /* View Sections */
+      .view-section {
+        display: none;
+      }
+
+      .view-section.active {
+        display: block;
+      }
+
+      /* Timeline */
+      .timeline {
+        max-width: 900px;
+        margin: 0 auto;
+      }
+
+      .event-card {
+        background: #FFFFFF;
+        border-radius: 16px;
+        padding: 2.5rem;
+        margin-bottom: 2rem;
+        box-shadow: 0 2px 20px rgba(58, 58, 58, 0.06);
+        transition: transform 0.4s ease, box-shadow 0.4s ease;
+        cursor: pointer;
+        border: 1px solid rgba(58, 58, 58, 0.05);
+      }
+
+      .event-card:hover {
+        transform: translateY(-4px);
+        box-shadow: 0 8px 30px rgba(58, 58, 58, 0.12);
+      }
+
+      .event-meta {
+        display: flex;
+        gap: 1.5rem;
+        margin-bottom: 1.5rem;
+        flex-wrap: wrap;
+      }
+
+      .event-date,
+      .event-category {
+        font-size: 0.85rem;
+        font-weight: 500;
+        color: #C9A690;
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+      }
+
+      .event-title {
+        font-family: 'Playfair Display', serif;
+        font-size: 2rem;
+        font-weight: 600;
+        color: #3A3A3A;
+        margin-bottom: 1rem;
+        letter-spacing: -0.02em;
+        line-height: 1.3;
+      }
+
+      .event-venue {
+        font-size: 0.95rem;
+        color: #7A7A7A;
+        margin-bottom: 1rem;
+        font-weight: 400;
+      }
+
+      .event-summary {
+        font-size: 1rem;
+        color: #5A5A5A;
+        line-height: 1.7;
+        font-weight: 300;
+      }
+
+      .add-review-button {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.5rem;
+        background: transparent;
+        color: #C9A690;
+        border: 2px solid #C9A690;
+        padding: 0.7rem 1.5rem;
+        border-radius: 10px;
+        font-size: 0.9rem;
+        font-weight: 500;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        font-family: 'Inter', sans-serif;
+        letter-spacing: 0.02em;
+        margin-top: 1rem;
+      }
+
+      .add-review-button:hover {
+        background: #C9A690;
+        color: #FFFFFF;
+        transform: translateY(-2px);
+      }
+
+      .add-review-button:disabled {
+        border-color: #E8DDD4;
+        color: #E8DDD4;
+        cursor: not-allowed;
+        transform: none;
+      }
+
+      .delete-button {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.5rem;
+        background: transparent;
+        color: #D66565;
+        border: 2px solid #D66565;
+        padding: 0.7rem 1.5rem;
+        border-radius: 10px;
+        font-size: 0.9rem;
+        font-weight: 500;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        font-family: 'Inter', sans-serif;
+        letter-spacing: 0.02em;
+        margin-top: 2rem;
+      }
+
+      .delete-button:hover {
+        background: #D66565;
+        color: #FFFFFF;
+        transform: translateY(-2px);
+      }
+
+      .delete-button:disabled {
+        border-color: #E8DDD4;
+        color: #E8DDD4;
+        cursor: not-allowed;
+        transform: none;
+      }
+
+      .review-card.empty {
+        background: transparent;
+        border: 2px dashed rgba(58, 58, 58, 0.15);
+        box-shadow: none;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        min-height: 200px;
+      }
+
+      .empty-review-icon {
+        font-size: 2rem;
+        margin-bottom: 0.5rem;
+        opacity: 0.3;
+      }
+
+      .empty-review-text {
+        font-size: 0.9rem;
+        color: #7A7A7A;
+        text-align: center;
+        font-weight: 300;
+      }
+
+      /* Event Detail */
+      .event-detail {
+        max-width: 1000px;
+        margin: 0 auto;
+      }
+
+      .back-button {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.5rem;
+        font-size: 0.9rem;
+        color: #7A7A7A;
+        text-decoration: none;
+        margin-bottom: 2rem;
+        transition: color 0.3s ease;
+        cursor: pointer;
+        border: none;
+        background: none;
+        font-family: 'Inter', sans-serif;
+      }
+
+      .back-button:hover {
+        color: #C9A690;
+      }
+
+      .hero-image {
+        width: 100%;
+        height: 500px;
+        background: linear-gradient(135deg, #E8DDD4 0%, #C9A690 100%);
+        border-radius: 20px;
+        margin-bottom: 3rem;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 4rem;
+        overflow: hidden;
+      }
+
+      .detail-header {
+        margin-bottom: 3rem;
+      }
+
+      .detail-title {
+        font-family: 'Playfair Display', serif;
+        font-size: 3rem;
+        font-weight: 600;
+        color: #3A3A3A;
+        margin-bottom: 1.5rem;
+        letter-spacing: -0.03em;
+        line-height: 1.2;
+      }
+
+      .detail-meta {
+        display: flex;
+        gap: 2rem;
+        flex-wrap: wrap;
+        margin-bottom: 1rem;
+      }
+
+      .meta-item {
+        font-size: 0.9rem;
+        color: #7A7A7A;
+      }
+
+      .meta-label {
+        font-weight: 500;
+        color: #C9A690;
+        text-transform: uppercase;
+        letter-spacing: 0.08em;
+        font-size: 0.8rem;
+      }
+
+      .reviews-section {
+        margin-top: 4rem;
+      }
+
+      .section-title {
+        font-family: 'Playfair Display', serif;
+        font-size: 2rem;
+        font-weight: 600;
+        color: #3A3A3A;
+        margin-bottom: 2.5rem;
+        text-align: center;
+        letter-spacing: -0.02em;
+      }
+
+      .reviews-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+        gap: 2rem;
+        margin-bottom: 3rem;
+      }
+
+      .review-card {
+        background: #FFFFFF;
+        border-radius: 16px;
+        padding: 2rem;
+        box-shadow: 0 2px 20px rgba(58, 58, 58, 0.06);
+        border: 1px solid rgba(58, 58, 58, 0.05);
+      }
+
+      .reviewer-name {
+        font-family: 'Playfair Display', serif;
+        font-size: 1.5rem;
+        font-weight: 600;
+        color: #3A3A3A;
+        margin-bottom: 0.5rem;
+      }
+
+      .review-mood {
+        font-size: 0.85rem;
+        color: #C9A690;
+        margin-bottom: 1rem;
+        font-weight: 500;
+        letter-spacing: 0.05em;
+      }
+
+      .review-rating {
+        display: flex;
+        gap: 0.3rem;
+        margin-bottom: 1rem;
+      }
+
+      .star {
+        color: #C9A690;
+        font-size: 1rem;
+      }
+
+      .star.empty {
+        color: #E8DDD4;
+      }
+
+      .review-text {
+        font-size: 0.95rem;
+        color: #5A5A5A;
+        line-height: 1.7;
+        margin-bottom: 1rem;
+        font-weight: 300;
+      }
+
+      .review-highlight {
+        font-size: 0.85rem;
+        color: #7A7A7A;
+        font-style: italic;
+        padding-top: 1rem;
+        border-top: 1px solid rgba(58, 58, 58, 0.08);
+      }
+
+      .review-photo {
+        width: 100%;
+        height: 200px;
+        object-fit: cover;
+        border-radius: 12px;
+        margin-top: 1rem;
+      }
+
+      /* Gallery Section */
+      .gallery-section {
+        margin-top: 4rem;
+        padding-top: 3rem;
+        border-top: 2px solid rgba(58, 58, 58, 0.08);
+      }
+
+      .gallery-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 2rem;
+      }
+
+      .add-photo-button {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.5rem;
+        background: transparent;
+        color: #C9A690;
+        border: 2px solid #C9A690;
+        padding: 0.7rem 1.5rem;
+        border-radius: 10px;
+        font-size: 0.9rem;
+        font-weight: 500;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        font-family: 'Inter', sans-serif;
+        letter-spacing: 0.02em;
+      }
+
+      .add-photo-button:hover {
+        background: #C9A690;
+        color: #FFFFFF;
+        transform: translateY(-2px);
+      }
+
+      .gallery-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+        gap: 1.5rem;
+      }
+
+      .gallery-item {
+        position: relative;
+        aspect-ratio: 1;
+        border-radius: 12px;
+        overflow: hidden;
+        box-shadow: 0 2px 15px rgba(58, 58, 58, 0.1);
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+        cursor: pointer;
+      }
+
+      .gallery-item:hover {
+        transform: translateY(-4px);
+        box-shadow: 0 8px 25px rgba(58, 58, 58, 0.15);
+      }
+
+      .gallery-item img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+      }
+
+      .gallery-item-delete {
+        position: absolute;
+        top: 0.5rem;
+        right: 0.5rem;
+        background: rgba(255, 255, 255, 0.9);
+        border: none;
+        border-radius: 8px;
+        width: 32px;
+        height: 32px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+        opacity: 0;
+        transition: opacity 0.3s ease, transform 0.2s ease;
+        font-size: 1rem;
+      }
+
+      .gallery-item:hover .gallery-item-delete {
+        opacity: 1;
+      }
+
+      .gallery-item-delete:hover {
+        transform: scale(1.1);
+        background: #FFFFFF;
+      }
+
+      .empty-gallery {
+        text-align: center;
+        padding: 3rem;
+        background: rgba(58, 58, 58, 0.02);
+        border-radius: 12px;
+        border: 2px dashed rgba(58, 58, 58, 0.15);
+      }
+
+      .empty-gallery-icon {
+        font-size: 2.5rem;
+        margin-bottom: 0.5rem;
+        opacity: 0.3;
+      }
+
+      .empty-gallery-text {
+        font-size: 0.95rem;
+        color: #7A7A7A;
+        font-weight: 300;
+      }
+
+      .gallery-preview {
+        width: 100%;
+        height: 120px;
+        border-radius: 8px;
+        overflow: hidden;
+        margin-top: 0.5rem;
+        background: linear-gradient(135deg, #E8DDD4 0%, #C9A690 100%);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 2rem;
+      }
+
+      .gallery-preview img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+      }
+
+      .lightbox-overlay {
+        display: none;
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(0, 0, 0, 0.9);
+        z-index: 2000;
+        align-items: center;
+        justify-content: center;
+        padding: 2rem;
+      }
+
+      .lightbox-overlay.active {
+        display: flex;
+      }
+
+      .lightbox-image {
+        max-width: 90%;
+        max-height: 90%;
+        object-fit: contain;
+        border-radius: 8px;
+      }
+
+      .lightbox-close {
+        position: absolute;
+        top: 2rem;
+        right: 2rem;
+        background: rgba(255, 255, 255, 0.9);
+        border: none;
+        border-radius: 50%;
+        width: 48px;
+        height: 48px;
+        font-size: 1.5rem;
+        cursor: pointer;
+        transition: background 0.3s ease;
+        color: #3A3A3A;
+      }
+
+      .lightbox-close:hover {
+        background: #FFFFFF;
+      }
+
+      /* Events Grid */
+      .events-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+        gap: 2rem;
+        max-width: 1200px;
+        margin: 0 auto;
+      }
+
+      .event-grid-card {
+        background: #FFFFFF;
+        border-radius: 16px;
+        overflow: hidden;
+        box-shadow: 0 2px 20px rgba(58, 58, 58, 0.06);
+        transition: transform 0.4s ease, box-shadow 0.4s ease;
+        cursor: pointer;
+        border: 1px solid rgba(58, 58, 58, 0.05);
+      }
+
+      .event-grid-card:hover {
+        transform: translateY(-4px);
+        box-shadow: 0 8px 30px rgba(58, 58, 58, 0.12);
+      }
+
+      .event-grid-image {
+        width: 100%;
+        height: 180px;
+        background: linear-gradient(135deg, #E8DDD4 0%, #C9A690 100%);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 3.5rem;
+        object-fit: cover;
+      }
+
+      .event-grid-content {
+        padding: 1.5rem;
+      }
+
+      .event-grid-meta {
+        display: flex;
+        gap: 1rem;
+        margin-bottom: 1rem;
+        flex-wrap: wrap;
+      }
+
+      .event-grid-date,
+      .event-grid-category {
+        font-size: 0.75rem;
+        font-weight: 500;
+        color: #C9A690;
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+      }
+
+      .event-grid-title {
+        font-family: 'Playfair Display', serif;
+        font-size: 1.3rem;
+        font-weight: 600;
+        color: #3A3A3A;
+        margin-bottom: 0.5rem;
+        letter-spacing: -0.02em;
+        line-height: 1.3;
+        display: -webkit-box;
+        -webkit-line-clamp: 2;
+        -webkit-box-orient: vertical;
+        overflow: hidden;
+      }
+
+      .event-grid-venue {
+        font-size: 0.85rem;
+        color: #7A7A7A;
+        margin-bottom: 0.75rem;
+        font-weight: 400;
+      }
+
+      .event-grid-reviews {
+        display: flex;
+        gap: 0.5rem;
+        padding-top: 0.75rem;
+        border-top: 1px solid rgba(58, 58, 58, 0.08);
+      }
+
+      .review-avatar {
+        width: 32px;
+        height: 32px;
+        border-radius: 50%;
+        background: linear-gradient(135deg, #E8DDD4 0%, #C9A690 100%);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 1rem;
+        border: 2px solid #FFFFFF;
+      }
+
+      .review-avatar.empty {
+        opacity: 0.3;
+        background: #E8DDD4;
+      }
+
+      /* Profile Section */
+      .profile-section {
+        max-width: 1000px;
+        margin: 0 auto;
+      }
+
+      .profile-grid {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 2.5rem;
+        margin-top: 3rem;
+        max-width: 900px;
+        margin-left: auto;
+        margin-right: auto;
+      }
+
+      .profile-card {
+        text-align: center;
+        background: #FFFFFF;
+        border-radius: 16px;
+        padding: 3rem 2rem;
+        box-shadow: 0 2px 20px rgba(58, 58, 58, 0.06);
+        border: 1px solid rgba(58, 58, 58, 0.05);
+        transition: transform 0.4s ease;
+        flex: 0 0 280px;
+      }
+
+      .profile-card:hover {
+        transform: translateY(-4px);
+      }
+
+      .profile-avatar {
+        width: 120px;
+        height: 120px;
+        border-radius: 50%;
+        background: linear-gradient(135deg, #E8DDD4 0%, #C9A690 100%);
+        margin: 0 auto 1.5rem;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 3rem;
+      }
+
+      .profile-name {
+        font-family: 'Playfair Display', serif;
+        font-size: 1.8rem;
+        font-weight: 600;
+        color: #3A3A3A;
+        margin-bottom: 0.5rem;
+      }
+
+      .profile-bio {
+        font-size: 0.95rem;
+        color: #7A7A7A;
+        font-weight: 300;
+        letter-spacing: 0.02em;
+      }
+
+      /* Add Event Form */
+      .add-event-button {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.5rem;
+        background: #C9A690;
+        color: #FFFFFF;
+        border: none;
+        padding: 1rem 2rem;
+        border-radius: 12px;
+        font-size: 0.95rem;
+        font-weight: 500;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        margin-bottom: 3rem;
+        font-family: 'Inter', sans-serif;
+        letter-spacing: 0.02em;
+      }
+
+      .add-event-button:hover {
+        background: #B89580;
+        transform: translateY(-2px);
+        box-shadow: 0 4px 15px rgba(201, 166, 144, 0.3);
+      }
+
+      .add-event-button:disabled {
+        background: #E8DDD4;
+        cursor: not-allowed;
+        transform: none;
+      }
+
+      .modal-overlay {
+        display: none;
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(58, 58, 58, 0.7);
+        backdrop-filter: blur(4px);
+        z-index: 1000;
+        overflow-y: auto;
+      }
+
+      .modal-overlay.active {
+        display: flex;
+        align-items: flex-start;
+        justify-content: center;
+        padding: 3rem 1rem;
+      }
+
+      .modal {
+        background: #FAF8F5;
+        border-radius: 20px;
+        padding: 3rem;
+        max-width: 700px;
+        width: 100%;
+        box-shadow: 0 20px 60px rgba(58, 58, 58, 0.3);
+        margin: auto;
+      }
+
+      .modal-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 2rem;
+      }
+
+      .modal-title {
+        font-family: 'Playfair Display', serif;
+        font-size: 2rem;
+        font-weight: 600;
+        color: #3A3A3A;
+      }
+
+      .close-button {
+        background: none;
+        border: none;
+        font-size: 1.5rem;
+        color: #7A7A7A;
+        cursor: pointer;
+        transition: color 0.3s ease;
+        padding: 0;
+        width: 2rem;
+        height: 2rem;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+
+      .close-button:hover {
+        color: #3A3A3A;
+      }
+
+      .form-group {
+        margin-bottom: 1.5rem;
+      }
+
+      .form-label {
+        display: block;
+        font-size: 0.9rem;
+        font-weight: 500;
+        color: #5A5A5A;
+        margin-bottom: 0.5rem;
+        letter-spacing: 0.02em;
+      }
+
+      .form-input,
+      .form-textarea,
+      .form-select {
+        width: 100%;
+        padding: 0.9rem 1.2rem;
+        border: 1px solid rgba(58, 58, 58, 0.15);
+        border-radius: 10px;
+        font-size: 0.95rem;
+        font-family: 'Inter', sans-serif;
+        color: #3A3A3A;
+        background: #FFFFFF;
+        transition: border-color 0.3s ease;
+      }
+
+      .form-input:focus,
+      .form-textarea:focus,
+      .form-select:focus {
+        outline: none;
+        border-color: #C9A690;
+      }
+
+      .form-textarea {
+        resize: vertical;
+        min-height: 100px;
+      }
+
+      .review-section {
+        background: #FFFFFF;
+        border-radius: 12px;
+        padding: 1.5rem;
+        margin-bottom: 1.5rem;
+        border: 1px solid rgba(58, 58, 58, 0.08);
+      }
+
+      .review-section-title {
+        font-family: 'Playfair Display', serif;
+        font-size: 1.2rem;
+        font-weight: 600;
+        color: #3A3A3A;
+        margin-bottom: 1rem;
+      }
+
+      .form-row {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 1rem;
+      }
+
+      .submit-button {
+        width: 100%;
+        background: #C9A690;
+        color: #FFFFFF;
+        border: none;
+        padding: 1.1rem;
+        border-radius: 12px;
+        font-size: 1rem;
+        font-weight: 500;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        margin-top: 1rem;
+        font-family: 'Inter', sans-serif;
+        letter-spacing: 0.02em;
+      }
+
+      .submit-button:hover:not(:disabled) {
+        background: #B89580;
+        transform: translateY(-2px);
+        box-shadow: 0 4px 15px rgba(201, 166, 144, 0.3);
+      }
+
+      .submit-button:disabled {
+        background: #E8DDD4;
+        cursor: not-allowed;
+        transform: none;
+      }
+
+      /* Empty State */
+      .empty-state {
+        text-align: center;
+        padding: 5rem 2rem;
+      }
+
+      .empty-icon {
+        font-size: 4rem;
+        margin-bottom: 1.5rem;
+        opacity: 0.3;
+      }
+
+      .empty-text {
+        font-size: 1.1rem;
+        color: #7A7A7A;
+        font-weight: 300;
+      }
+
+      /* Loading Spinner */
+      .loading-spinner {
+        display: inline-block;
+        width: 20px;
+        height: 20px;
+        border: 2px solid rgba(255, 255, 255, 0.3);
+        border-top-color: #FFFFFF;
+        border-radius: 50%;
+        animation: spin 0.8s linear infinite;
+      }
+
+      @keyframes spin {
+        to { transform: rotate(360deg); }
+      }
+
+      /* Responsive */
+      @media (max-width: 768px) {
+        .nav-content {
+          padding: 0 1.5rem;
+          flex-direction: column;
+          gap: 1rem;
+          text-align: center;
+        }
+
+        .nav-links {
+          gap: 1.5rem;
+        }
+
+        .hero-section {
+          padding: 3rem 1.5rem 2rem;
+        }
+
+        .hero-title {
+          font-size: 2.5rem;
+        }
+
+        .main-content {
+          padding: 0 1.5rem 3rem;
+        }
+
+        .event-card {
+          padding: 1.5rem;
+        }
+
+        .event-title {
+          font-size: 1.5rem;
+        }
+
+        .detail-title {
+          font-size: 2rem;
+        }
+
+        .hero-image {
+          height: 300px;
+        }
+
+        .form-row {
+          grid-template-columns: 1fr;
+        }
+
+        .modal {
+          padding: 2rem 1.5rem;
+        }
+
+        .reviews-grid {
+          grid-template-columns: 1fr;
+        }
+
+        .profile-grid {
+          flex-direction: column;
+          align-items: center;
+        }
+
+        .profile-card {
+          width: 100%;
+          max-width: 320px;
+        }
+
+        .events-grid {
+          grid-template-columns: 1fr;
+        }
+      }
+    </style>
+    <style>@view-transition { navigation: auto; }</style>
+    <script src="https://cdn.tailwindcss.com" type="text/javascript"></script>
+  </head>
+  <body>
+    <div class="app-container">
+      <!-- Navigation -->
+      <nav class="navbar">
+        <div class="nav-content">
+          <div>
+            <div class="site-title" id="site-title">
+              Üç Adım
+            </div>
+            <div class="site-tagline" id="site-tagline">
+              Kültürel Bir Yolculuk
+            </div>
+          </div>
+          <div class="nav-links">
+            <a class="nav-link active" data-view="home" id="nav-home">Ana Sayfa</a>
+            <a class="nav-link" data-view="events" id="nav-events">Etkinlikler</a>
+            <a class="nav-link" data-view="about" id="nav-about">Hakkımızda</a>
+          </div>
+        </div>
+      </nav>
+
+      <!-- Hero Section -->
+      <section class="hero-section">
+        <h1 class="hero-title">Kültürel Yolculuğumuz</h1>
+        <p class="hero-subtitle">Sena, Hanne ve Merve'nin tiyatro, sergi, bale ve konser deneyimlerinden oluşan kişisel bir günlük</p>
+      </section>
+
+      <!-- Main Content -->
+      <main class="main-content">
+        <!-- Home View -->
+        <div class="view-section active" id="home-view">
+          <button class="add-event-button" id="add-event-btn">
+            <span>+</span>
+            <span id="add-event-button-text">Yeni Etkinlik Ekle</span>
+          </button>
+          <div class="timeline" id="timeline">
+            <div class="empty-state">
+              <div class="empty-icon">
+                ✨
+              </div>
+              <p class="empty-text" id="empty-state-text">
+                Henüz etkinlik eklenmemiş. İlk deneyiminizi paylaşarak başlayın!
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Events View -->
+        <div class="view-section" id="events-view">
+          <h2 class="section-title">Tüm Etkinlikler</h2>
+          <div class="events-grid" id="events-grid">
+            <div class="empty-state">
+              <div class="empty-icon">
+                ✨
+              </div>
+              <p class="empty-text">Henüz etkinlik eklenmemiş</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Event Detail View -->
+        <div class="view-section" id="detail-view">
+          <div class="event-detail">
+            <button class="back-button" id="back-btn">← Geri Dön</button>
+            <div class="hero-image" id="detail-hero">
+              🎭
+            </div>
+            <div class="detail-header">
+              <h1 class="detail-title" id="detail-title">Etkinlik Başlığı</h1>
+              <div class="detail-meta">
+                <div class="meta-item">
+                  <div class="meta-label">
+                    Tarih
+                  </div>
+                  <div id="detail-date">
+                    -
+                  </div>
+                </div>
+                <div class="meta-item">
+                  <div class="meta-label">
+                    Mekân
+                  </div>
+                  <div id="detail-venue">
+                    -
+                  </div>
+                </div>
+                <div class="meta-item">
+                  <div class="meta-label">
+                    Kategori
+                  </div>
+                  <div id="detail-category">
+                    -
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="gallery-section">
+              <div class="gallery-header">
+                <h2 class="section-title" style="margin-bottom: 0;">Fotoğraf Galerisi</h2>
+                <button class="add-photo-button" id="add-photo-btn">
+                  <span>📷</span>
+                  <span>Fotoğraf Ekle</span>
+                </button>
+              </div>
+              <div class="gallery-grid" id="gallery-grid">
+                <div class="empty-gallery">
+                  <div class="empty-gallery-icon">
+                    📸
+                  </div>
+                  <p class="empty-gallery-text">Henüz fotoğraf eklenmemiş</p>
+                </div>
+              </div>
+            </div>
+
+            <div class="reviews-section">
+              <h2 class="section-title">Üç Adım</h2>
+              <div class="reviews-grid" id="reviews-grid"></div>
+            </div>
+
+            <div style="text-align: center; margin-top: 3rem;">
+              <button class="delete-button" id="delete-event-btn">
+                <span>🗑️</span>
+                <span>Etkinliği Sil</span>
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- About View -->
+        <div class="view-section" id="about-view">
+          <div class="profile-section">
+            <h2 class="section-title" id="profile-title">Üç Adım Ekibi</h2>
+            <div class="profile-grid">
+              <div class="profile-card">
+                <div class="profile-avatar">
+                  👱🏻‍♀️
+                </div>
+                <h3 class="profile-name" id="sena-name">Sena</h3>
+                <p class="profile-bio" id="sena-bio">Tiyatro tutkunu</p>
+              </div>
+              <div class="profile-card">
+                <div class="profile-avatar">
+                  👩🏻
+                </div>
+                <h3 class="profile-name" id="hanne-name">Hanne</h3>
+                <p class="profile-bio" id="hanne-bio">Sanat aşığı</p>
+              </div>
+              <div class="profile-card">
+                <div class="profile-avatar">
+                  👩🏻‍🦰
+                </div>
+                <h3 class="profile-name" id="merve-name">Merve</h3>
+                <p class="profile-bio" id="merve-bio">Müzik meraklısı</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </main>
+
+      <!-- Add Event Modal -->
+      <div class="modal-overlay" id="modal-overlay">
+        <div class="modal">
+          <div class="modal-header">
+            <h2 class="modal-title" id="modal-title">Yeni Etkinlik Ekle</h2>
+            <button class="close-button" id="close-modal">×</button>
+          </div>
+
+          <!-- Event Form -->
+          <form id="event-form">
+            <div class="form-group">
+              <label class="form-label" for="title">Etkinlik Başlığı</label>
+              <input type="text" id="title" class="form-input" required>
+            </div>
+            <div class="form-row">
+              <div class="form-group">
+                <label class="form-label" for="category">Kategori</label>
+                <select id="category" class="form-select">
+                  <option value="">Seçiniz</option>
+                  <option value="Tiyatro">Tiyatro</option>
+                  <option value="Sergi">Sergi</option>
+                  <option value="Bale">Bale</option>
+                  <option value="Konser">Konser</option>
+                  <option value="Şehir Keşfi">Şehir Keşfi</option>
+                </select>
+              </div>
+              <div class="form-group">
+                <label class="form-label" for="date">Tarih</label>
+                <input type="date" id="date" class="form-input">
+              </div>
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="venue">Mekân</label>
+              <input type="text" id="venue" class="form-input">
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="summary">Özet</label>
+              <textarea id="summary" class="form-textarea"></textarea>
+            </div>
+            <div class="form-note" style="background: #E8DDD4; padding: 1rem; border-radius: 8px; font-size: 0.9rem; color: #5A5A5A; margin-bottom: 1rem;">
+              💡 Etkinlik eklendikten sonra Sena, Hanne ve Merve kendi yorumlarını ayrı ayrı ekleyebilir.
+            </div>
+            <button type="submit" class="submit-button" id="submit-btn">
+              <span id="submit-text">Etkinliği Kaydet</span>
+            </button>
+          </form>
+
+          <!-- Review Form -->
+          <form id="review-form" style="display: none;">
+            <div class="form-group">
+              <label class="form-label" for="review-author">Kimsiniz?</label>
+              <select id="review-author" class="form-select" required>
+                <option value="">Seçiniz</option>
+                <option value="sena">Sena</option>
+                <option value="hanne">Hanne</option>
+                <option value="merve">Merve</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="review-text">Yorumunuz</label>
+              <textarea id="review-text" class="form-textarea" required></textarea>
+            </div>
+            <div class="form-row">
+              <div class="form-group">
+                <label class="form-label" for="review-mood">Ruh Haliniz</label>
+                <input type="text" id="review-mood" class="form-input" placeholder="Örn: İlhamlı, Heyecanlı">
+              </div>
+              <div class="form-group">
+                <label class="form-label" for="review-rating">Puanınız (1-5)</label>
+                <input type="number" id="review-rating" class="form-input" min="1" max="5">
+              </div>
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="review-highlight">En Sevdiğiniz An</label>
+              <input type="text" id="review-highlight" class="form-input">
+            </div>
+            <button type="submit" class="submit-button" id="review-submit-btn">
+              <span id="review-submit-text">Yorumu Kaydet</span>
+            </button>
+          </form>
+
+          <!-- Photo Form -->
+          <form id="photo-form" style="display: none;">
+            <div class="form-group">
+              <label class="form-label" for="photo-file">Fotoğraf Seç</label>
+              <input 
+                type="file" 
+                id="photo-file" 
+                class="form-input" 
+                accept="image/*" 
+                style="padding: 0.6rem 1.2rem;"
+              >
+              <p style="font-size: 0.85rem; color: #7A7A7A; margin-top: 0.5rem;">
+                📱 Telefonunuzdan veya bilgisayarınızdan fotoğraf seçin
+              </p>
+            </div>
+            <div style="text-align: center; margin: 1.5rem 0; color: #7A7A7A; font-size: 0.9rem;">
+              veya
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="photo-url">Fotoğraf URL'si</label>
+              <input type="url" id="photo-url" class="form-input" placeholder="https://...">
+              <p style="font-size: 0.85rem; color: #7A7A7A; margin-top: 0.5rem;">
+                🔗 Fotoğraf linkini buraya yapıştırın
+              </p>
+            </div>
+            <div id="photo-preview" style="display: none; margin-top: 1rem;">
+              <img id="photo-preview-img" style="width: 100%; max-height: 200px; object-fit: cover; border-radius: 12px;">
+            </div>
+            <button type="submit" class="submit-button" id="photo-submit-btn">
+              <span id="photo-submit-text">Fotoğrafı Ekle</span>
+            </button>
+          </form>
+        </div>
+      </div>
+
+      <!-- Lightbox -->
+      <div class="lightbox-overlay" id="lightbox-overlay">
+        <button class="lightbox-close" id="lightbox-close">×</button>
+        <img src="" alt="Büyük görünüm" class="lightbox-image" id="lightbox-image">
+      </div>
+    </div>
+
+    <script src="/script.js"></script>
+  </body>
+</html>

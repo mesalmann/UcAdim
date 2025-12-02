@@ -1,0 +1,17 @@
+{
+  "name": "uc-adim-blog",
+  "version": "1.0.0",
+  "description": "Sena, Hanne, Merve kültürel günlük",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "dependencies": {
+    "cors": "^2.8.5",
+    "express": "^4.22.1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs"
+}
